@@ -70,3 +70,4 @@ fabric.properties
 ## Other ignores
 build/*
 target/*
+servers/*
