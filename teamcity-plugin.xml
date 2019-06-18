@@ -4,7 +4,7 @@
     <name>brdtcplugin</name>
     <display-name>brdtcplugin</display-name>
     <version>@Version@</version>
-    <description>The build results decorator adds a custom HTML to the build results page</description>
+    <description>The build result decorator adds a custom HTML to the build results page</description>
     <download-url>Plugin download URL</download-url>
     <email>bo.sorensen@edlund.dk</email>
     <vendor>
