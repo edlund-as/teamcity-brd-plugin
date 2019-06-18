@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
@@ -79,7 +80,7 @@ public class BrdBuildPageExtension extends SimplePageExtension {
 
         try {
             inputStream = artifact.getInputStream();
-            data = readDataFromStream(inputStream);
+            data = readDataFromStream(inputStream, StandardCharsets.UTF_8);
             inputStream.close();
         } catch (IOException e) {
             return "Error reading artifact data: " + e.getMessage();
@@ -95,7 +96,7 @@ public class BrdBuildPageExtension extends SimplePageExtension {
             zipInputStream = new ZipInputStream(artifact.getInputStream());
             InputStream inputStream = ArchiveUtil.extractEntry(zipInputStream, filename);
             if (inputStream != null ) {
-                data = readDataFromStream(inputStream);
+                data = readDataFromStream(inputStream, StandardCharsets.UTF_8);
             }
             zipInputStream.close();
         } catch (IOException e) {
@@ -104,8 +105,8 @@ public class BrdBuildPageExtension extends SimplePageExtension {
         return data;
     }
 
-    private String readDataFromStream(@NotNull final InputStream inputStream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_16LE));
+    private String readDataFromStream(@NotNull final InputStream inputStream, Charset charset) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, charset));
         String line;
         StringBuilder sb = new StringBuilder();
 
