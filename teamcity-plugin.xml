@@ -3,14 +3,13 @@
   <info>
     <name>brdtcplugin</name>
     <display-name>brdtcplugin</display-name>
-    <version>@Version@</version>
+    <version>0.0.1</version>
     <description>The build result decorator adds a custom HTML to the build results page</description>
     <download-url>Plugin download URL</download-url>
     <email>bo.sorensen@edlund.dk</email>
     <vendor>
-      <name>@VendorName@</name>
-      <url>@VendorURL@</url>
-      <logo>Plugin vendor logo URL</logo>
+      <name>Edlund A/S</name>
+      <url>https://www.edlund.dk/</url>
     </vendor>
   </info>
   <deployment use-separate-classloader="true"/>
