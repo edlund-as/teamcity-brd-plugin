@@ -10,6 +10,4 @@ public class Constants {
 
   // Build feature parameters
   public static final String ARTIFACT_FILENAME = "artifactFilename";
-
-  public static final Logger LOGGER = Logger.getInstance("BuildResultDecorator");
 }

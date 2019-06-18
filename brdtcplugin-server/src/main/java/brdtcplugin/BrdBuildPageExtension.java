@@ -38,14 +38,16 @@ public class BrdBuildPageExtension extends SimplePageExtension {
 
     @Override
     public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
-
+        String decoratormessage = "";
         boolean isOnBuildoverviewTab = model.get("cameFromUrl").toString().endsWith("buildResultsDiv");
-        if (!isOnBuildoverviewTab) { return; }
-
-        SBuild build = getBuild(request);
-        String artifactFilename = CustomParameters.getArtifactFilename(build);
-        String message = getArtifactData(build, artifactFilename);
-        model.put("message", message);
+        if (isOnBuildoverviewTab) {
+            SBuild build = getBuild(request);
+            String artifactFilename = CustomParameters.getArtifactFilename(build);
+            if (artifactFilename != null) {
+                decoratormessage = getArtifactData(build, artifactFilename);
+            }
+        }
+        model.put("decoratormessage", decoratormessage);
     }
 
     private String getArtifactData(SBuild build, String artifactFilename) {
