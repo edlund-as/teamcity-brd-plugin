@@ -71,3 +71,6 @@ fabric.properties
 build/*
 target/*
 servers/*
+
+brdtcplugin-server/build/*
+brdtcplugin-server/target/*
