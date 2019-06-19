@@ -3,6 +3,7 @@ package brdtcplugin;
 import com.intellij.openapi.util.Pair;
 import jetbrains.buildServer.controllers.BuildDataExtensionUtil;
 import jetbrains.buildServer.serverSide.SBuild;
+import jetbrains.buildServer.serverSide.SBuildFeatureDescriptor;
 import jetbrains.buildServer.serverSide.SBuildServer;
 import jetbrains.buildServer.serverSide.artifacts.BuildArtifact;
 import jetbrains.buildServer.serverSide.artifacts.BuildArtifactsViewMode;
@@ -41,10 +42,13 @@ public class BrdBuildPageExtension extends SimplePageExtension {
     public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
         String decoratormessage = "";
         SBuild build = getBuild(request);
-        String artifactFilename = CustomParameters.getArtifactFilename(build);
-        if (artifactFilename != null) {
-            decoratormessage = getArtifactData(build, artifactFilename);
+        for (SBuildFeatureDescriptor bf: build.getBuildFeaturesOfType(Constants.BUILD_FEATURE_TYPE)) {
+            String artifactFilename = bf.getParameters().get(Constants.ARTIFACT_FILENAME);
+            if (artifactFilename != null) {
+                decoratormessage = decoratormessage.concat(getArtifactData(build, artifactFilename));
+            }
         }
+
         model.put("decoratormessage", decoratormessage);
     }
 

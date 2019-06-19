@@ -46,7 +46,7 @@ public class BrdBuildFeature extends BuildFeature {
 
   @Override
   public boolean isMultipleFeaturesPerBuildTypeAllowed() {
-    return false;
+    return true;
   }
 
   @Override
