@@ -68,7 +68,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 ## Other ignores
-build/*
+build/target/*
 target/*
 servers/*
 
