@@ -5,6 +5,7 @@ import jetbrains.buildServer.controllers.BuildDataExtensionUtil;
 import jetbrains.buildServer.serverSide.SBuild;
 import jetbrains.buildServer.serverSide.SBuildFeatureDescriptor;
 import jetbrains.buildServer.serverSide.SBuildServer;
+import jetbrains.buildServer.serverSide.SBuildType;
 import jetbrains.buildServer.serverSide.artifacts.BuildArtifact;
 import jetbrains.buildServer.serverSide.artifacts.BuildArtifactsViewMode;
 import jetbrains.buildServer.util.ArchiveUtil;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
@@ -40,28 +42,37 @@ public class BrdBuildPageExtension extends SimplePageExtension {
 
     @Override
     public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
-        String decoratormessage = "";
+        ArrayList<String> urllist = new ArrayList<>();
         SBuild build = getBuild(request);
         for (SBuildFeatureDescriptor bf: build.getBuildFeaturesOfType(Constants.BUILD_FEATURE_TYPE)) {
             String artifactFilename = bf.getParameters().get(Constants.ARTIFACT_FILENAME);
             if (artifactFilename != null) {
-                decoratormessage = decoratormessage.concat(getArtifactData(build, artifactFilename));
+                urllist.add(getArtifactUrl(build, artifactFilename));
             }
         }
 
-        model.put("decoratormessage", decoratormessage);
+        model.put("urllist", urllist);
     }
 
-    private String getArtifactData(SBuild build, String artifactFilename) {
+    private String getArtifactUrl(SBuild build, String artifactFilename) {
         if (isZipArtifact(artifactFilename)) {
             Pair<String, String> pair = getRelativeAndInsideZipPaths(artifactFilename);
             final BuildArtifact artifact = build.getArtifacts(BuildArtifactsViewMode.VIEW_DEFAULT).getArtifact(pair.first);
             if (artifact == null) { return ""; }
-            return readZipData(artifact, pair.second);
+            return String.format("%s/%s:id/%s", getProjectExternalId(build), build.getBuildId(), artifactFilename.replace("!", "!/"));
         } else {
             final BuildArtifact artifact = build.getArtifacts(BuildArtifactsViewMode.VIEW_DEFAULT).getArtifact(artifactFilename);
             if (artifact == null) { return ""; }
-            return readData(artifact);
+            return String.format("%s/%s:id/%s", getProjectExternalId(build), build.getBuildId(), artifactFilename);
+        }
+    }
+
+    private String getProjectExternalId(SBuild build) {
+        SBuildType buildType = build.getBuildType();
+        if (buildType == null) {
+            return "";
+        } else {
+            return buildType.getExternalId();
         }
     }
 
