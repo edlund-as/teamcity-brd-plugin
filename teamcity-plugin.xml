@@ -3,7 +3,7 @@
   <info>
     <name>brdtcplugin</name>
     <display-name>Build Result Decorator</display-name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>The build result decorator adds a custom HTML to the build results page</description>
     <download-url>Plugin download URL</download-url>
     <email>bo.sorensen@edlund.dk</email>
