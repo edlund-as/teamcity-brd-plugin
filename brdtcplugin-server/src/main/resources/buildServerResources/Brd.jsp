@@ -8,5 +8,7 @@
 <jsp:useBean id="urllist" scope="request" type="java.util.ArrayList"/>
 
 <c:forEach items="${urllist}" var="url">
+<c:if test="${not empty url}">
 <iframe src="/repository/download/${url}?redirectSupported=false" allowtransparency="true" onload="this.style.height=(this.contentDocument.body.scrollHeight+45) +'px';" scrolling="no" style="width:100%;border:none;"></iframe>
+</c:if>
 </c:forEach>
