@@ -52,6 +52,7 @@ public class BrdBuildPageExtension extends SimplePageExtension {
         }
 
         model.put("urllist", urllist);
+        model.put("baseurl", buildServer.getRootUrl());
     }
 
     private String getArtifactUrl(SBuild build, String artifactFilename) {
